@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ASAAS ERP</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; display: grid; place-items: center; color: #fff; background: radial-gradient(circle at 50% 35%, #102d58 0, #071b3b 45%, #030b18 100%); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      main { text-align: center; }
+      img { width: 132px; height: 132px; border-radius: 30px; box-shadow: 0 30px 80px rgba(0,0,0,.35); animation: breathe 1.8s ease-in-out infinite; }
+      h1 { margin: 26px 0 8px; font-size: 26px; letter-spacing: -.02em; }
+      p { margin: 0; color: #b9c9df; font-size: 14px; }
+      .line { width: 150px; height: 3px; margin: 28px auto 0; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.1); }
+      .line::after { content: ""; display: block; width: 45%; height: 100%; border-radius: inherit; background: #2e83ff; animation: load 1.2s ease-in-out infinite; }
+      @keyframes breathe { 50% { transform: scale(1.035); } }
+      @keyframes load { from { transform: translateX(-120%); } to { transform: translateX(340%); } }
+      @media (prefers-reduced-motion: reduce) { img, .line::after { animation: none; } }
+    </style>
+  </head>
+  <body><main><img src="assets/icon.png" alt="ASAAS" /><h1>ASAAS ERP</h1><p>Your business. One connected workspace.</p><div class="line" aria-label="Loading"></div></main></body>
+</html>

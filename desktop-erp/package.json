@@ -1,0 +1,81 @@
+{
+  "name": "asaas-erp-desktop",
+  "version": "1.0.1",
+  "private": true,
+  "description": "ASAAS ERP desktop application for Windows and macOS",
+  "author": "ASAAS",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "build:mac": "electron-builder --mac dmg --arm64",
+    "build:windows": "electron-builder --win zip --x64",
+    "build:desktop": "npm run build:mac && npm run build:windows"
+  },
+  "devDependencies": {
+    "electron": "35.7.5",
+    "electron-builder": "26.0.12"
+  },
+  "build": {
+    "appId": "com.asaaas.erp.desktop",
+    "productName": "ASAAS ERP",
+    "copyright": "Copyright © 2026 ASAAS",
+    "asar": true,
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "splash.html",
+      "assets/**/*"
+    ],
+    "artifactName": "ASAAS-ERP-${version}-${os}-${arch}.${ext}",
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["arm64"]
+        }
+      ],
+      "category": "public.app-category.business",
+      "icon": "assets/icon.png",
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "darkModeSupport": true
+    },
+    "afterPack": "scripts/after-pack.cjs",
+    "dmg": {
+      "title": "ASAAS ERP ${version}",
+      "backgroundColor": "#071b3b",
+      "iconSize": 112,
+      "window": {
+        "width": 560,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 160,
+          "y": 190
+        },
+        {
+          "x": 400,
+          "y": 190,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "signAndEditExecutable": false
+    }
+  }
+}

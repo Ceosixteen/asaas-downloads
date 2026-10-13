@@ -1,0 +1,42 @@
+name: Build ASAAS ERP macOS
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  macos:
+    runs-on: macos-14
+    defaults:
+      run:
+        working-directory: desktop-erp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: desktop-erp/package-lock.json
+      - run: npm ci
+      - name: Build and ad-hoc sign DMG
+        run: npm run build:mac
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Verify application signature and DMG
+        shell: bash
+        run: |
+          APP_PATH="release/mac-arm64/ASAAS ERP.app"
+          codesign --verify --deep --strict --verbose=2 "$APP_PATH"
+          codesign --display --verbose=4 "$APP_PATH"
+          hdiutil verify release/*.dmg
+      - name: Publish version 1.0.1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp release/*.dmg ASAAS-ERP-macOS-Apple-Silicon.dmg
+          gh release create desktop-v1.0.1 ASAAS-ERP-macOS-Apple-Silicon.dmg \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "ASAAS ERP Desktop 1.0.1" \
+            --notes "Fixes the invalid macOS application signature that could make macOS report ASAAS ERP as damaged. Apple Silicon Mac build."
